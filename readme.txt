@@ -1,0 +1,45 @@
+=== Captcha on Login ===
+Contributors: Anderson.Makiyama
+Donate link: http://ganhardinheiroblog.net
+Tags: capcha, login, plugin capcha, image on login, secure code to login
+Requires at least: 3.0
+Tested up to: 3.3
+Stable tag: trunk
+
+Protect your blog from login brute force attacks adding a captcha on login page of your site 
+
+== Description ==
+
+Nowadays, it is common hackers trying to get access to your blog, so, it is very important you make some actions to prevent your blog from being hacked. A good way to turn the login system of your blog more secure is to use that plugin Captcha on Login. It will Protect your blog from login brute force attacks adding a captcha on login page. That plugin also locks IPS after a specific number of login tries failed, note that on the plugin's options page you can set these numbers.
+ 
+== Installation ==
+
+To install, just follow this steps:
+
+1- Send the plugin to plugins folder, by default it should be: /wp-content/plugins/
+2- Do login on your blog's panel, go to Plugins section and activate the plugin Captcha on Login
+3- Now, on the left site of your blog's panel, a new option called "Captcha on Login" will appear, click on it to go to the options page
+4- Set the options and save changes. 
+
+== License ==
+
+This file is part of this plugin.
+This Plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published
+by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+This plugin is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Publish Anonymous Posts. If not, see <http://www.gnu.org/licenses/>.
+
+== Frequently Asked Questions ==
+
+= May I suggest ideas and modification to this plugin? =
+Yes, you can, just leave a comment at [Captcha on Login](http://fazer-site.net/plugin-captcha-on-login-para-wordpress#comments)
+
+== Screenshots ==
+1. WP Login Page with "Cpacha on Login" plugin enabled
+2. Plugin's options page
+
+== Changelog ==
+
+= 0.1 =
+* Plugin publication
