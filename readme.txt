@@ -11,6 +11,10 @@ Protect your blog from login brute force attacks adding a captcha on login page 
 == Description ==
 
 Nowadays, it is common hackers trying to get access to your blog, so, it is very important you make some actions to prevent your blog from being hacked. A good way to turn the login system of your blog more secure is to use that plugin Captcha on Login. It will Protect your blog from login brute force attacks adding a captcha on login page. That plugin also locks IPS after a specific number of login tries failed, note that on the plugin's options page you can set these numbers.
+
+Currently, the plugin also allow us to change the default admin username from admin to whatever you want. Changing the username of the admin is a great idea to prevent brute force atacks and turn your blog more secure.
+
+Since version 1.0 the plugin has a report page, where you can see blocked ips and last 100 sucess and failed logins and you can unblock blocked ips you wish. 
  
 == Installation ==
 
@@ -36,10 +40,16 @@ You should have received a copy of the GNU General Public License along with Pub
 Yes, you can, just leave a comment at [Captcha on Login](http://fazer-site.net/plugin-captcha-on-login-para-wordpress#comments)
 
 == Screenshots ==
-1. WP Login Page with "Cpacha on Login" plugin enabled
+1. WP Login Page with "Captcha on Login" plugin enabled
 2. Plugin's options page
+3. The report page
 
 == Changelog ==
 
 = 0.1 =
 * Plugin publication
+
+= 1.0 =
+* Added an option to unblock blocked ips
+* Added an report page where you can see all blocked ips and the last 100 sucess or failed logins
+* Added an option to change default admin username and increase the security of your blog

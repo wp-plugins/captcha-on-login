@@ -4,7 +4,7 @@ Plugin Name: Captcha on Login
 Plugin URI: http://fazer-site.net/plugin-captcha-on-login-para-wordpress
 Description: Protect your blog from login brute force attacks adding a captcha on login page
 Author: Anderson Makiyama
-Version: 0.1
+Version: 1.0
 Author URI: http://ganhardinheiroblog.net
 */
 
@@ -18,7 +18,7 @@ class Anderson_Makiyama_Captcha_On_Login{
 	public static $PLUGIN_NAME = self::PLUGIN_NAME;
 	const PLUGIN_PAGE = 'http://fazer-site.net/plugin-captcha-on-login-para-wordpress';
 	public static $PLUGIN_PAGE = self::PLUGIN_PAGE;
-	const PLUGIN_VERSION = '0.1';
+	const PLUGIN_VERSION = '1.0';
 	public static $PLUGIN_VERSION = self::PLUGIN_VERSION;
 	public $plugin_basename;
 	public $plugin_path;
@@ -84,7 +84,9 @@ class Anderson_Makiyama_Captcha_On_Login{
 
   		 add_menu_page(self::PLUGIN_NAME, self::PLUGIN_NAME,1, self::CLASS_NAME,array(self::CLASS_NAME,'options_page'), plugins_url('/images/icon.png', __FILE__));
 		 
-		 add_submenu_page(self::CLASS_NAME, self::PLUGIN_NAME,__('Help page'),1, self::CLASS_NAME . "_Help", array(self::CLASS_NAME,'help_page'));
+		 add_submenu_page(self::CLASS_NAME, self::PLUGIN_NAME,__('Report',self::CLASS_NAME),1, self::CLASS_NAME . "_Report", array(self::CLASS_NAME,'report_page'));
+		 
+		 add_submenu_page(self::CLASS_NAME, self::PLUGIN_NAME,__('Help page',self::CLASS_NAME),1, self::CLASS_NAME . "_Help", array(self::CLASS_NAME,'help_page'));
 
 	}	
 
@@ -92,9 +94,7 @@ class Anderson_Makiyama_Captcha_On_Login{
 
 	public function options_page(){
 
-		global $anderson_makiyama;
-
-		global $user_level;
+		global $anderson_makiyama, $wpdb, $user_ID, $user_level, $user_login;
 
 		get_currentuserinfo();
 
@@ -112,8 +112,58 @@ class Anderson_Makiyama_Captcha_On_Login{
 			$options['background'] = $_POST['background'];
 			$options['font_color'] = $_POST['font_color'];
 			$options['tentativas'] = $_POST['tentativas'];
+			
+			$admin_login = trim($_POST['username']);
+			
+			$unblock_ips = $_POST['unblock_ips'];
+			
+			if(!empty($unblock_ips)){
+			
+				$unblock_ips = explode(",",$unblock_ips);
+				$unblock_ips = array_map('trim',$unblock_ips);
+				
+				if(!isset($options["ips"])){
+								   
+					$ips = array();
+					
+				}else{
+					
+					$ips = $options["ips"];
+					
+				}
+				
+				$keep_ips = array();
+				
+				foreach($ips as $ip){
+					
+					if(in_array($ip[0],$unblock_ips)) continue;
+					
+					$keep_ips[] = $ip;
+					
+				}
+				
+				$options["ips"] = $keep_ips;
+				
+			}
 
 			update_option(self::CLASS_NAME . "_options", $options);
+			
+			
+			if(!empty($admin_login)){
+			
+                
+                $table_name = $wpdb->prefix . "users";
+
+                $data = array('user_login'=>$admin_login);                
+                $where = array('ID'=>$user_ID);
+                $format = array('%s');
+                $wformat = array('%d');
+                
+                $update = $wpdb->update( $table_name, $data, $where, $format, $wformat);
+				
+			
+			}
+			
 			
 			echo '<div id="message" class="updated">';
 			echo '<p><strong>'. __('Settings has been saved successfully!',self::CLASS_NAME) . '</strong></p>';
@@ -134,6 +184,40 @@ class Anderson_Makiyama_Captcha_On_Login{
 		include("templates/help.php");
 
 	}	
+	
+	
+	public function report_page(){
+
+		global $anderson_makiyama;
+		
+		$options = get_option(self::CLASS_NAME . "_options");
+		
+		if(!isset($options["last_100_logins"])){
+						   
+			$last_100_logins = array();
+			
+		}else{
+			
+			$last_100_logins = $options["last_100_logins"];
+			
+		}
+		
+		$last_100_logins = array_reverse($last_100_logins);
+		
+
+		if(!isset($options["ips"])){
+						   
+			$ips = array();
+			
+		}else{
+			
+			$ips = $options["ips"];
+			
+		}
+
+		include("templates/report.php");
+
+	}		
 	
 
 	public static function make_data($data, $anoConta,$mesConta,$diaConta){
@@ -216,12 +300,10 @@ class Anderson_Makiyama_Captcha_On_Login{
 		
 		$options["ips"] = $day_ips;
 		
-		update_option(self::CLASS_NAME . "_options",$options);
-		
-		
-		//
 		
 		if($bloqueado){
+			
+			$anderson_makiyama[self::PLUGIN_ID]->log_logins(__('Failed: IP already blocked',self::CLASS_NAME),$options);
 			
 			wp_logout();
 			
@@ -230,10 +312,14 @@ class Anderson_Makiyama_Captcha_On_Login{
 			exit;
 			
 		}
-		
-		if($_SESSION[self::CLASS_NAME . "_total_error_code"] >= 3){
+
+		if($_SESSION[self::CLASS_NAME . "_total_error_code"] >= $options["tentativas"]){
+
 			
-			$anderson_makiyama[self::PLUGIN_ID]->block_ip();
+			//retorna 
+			$options = $anderson_makiyama[self::PLUGIN_ID]->block_ip($options);
+			
+			$anderson_makiyama[self::PLUGIN_ID]->log_logins(__('Failed: exceeded max number of tries',self::CLASS_NAME),$options);
 
 			wp_logout();
 			
@@ -245,6 +331,8 @@ class Anderson_Makiyama_Captcha_On_Login{
 		
 		if(!isset($_SESSION[self::CLASS_NAME . "_code"]) || empty($_POST['codigo']) || strtolower($_SESSION[self::CLASS_NAME . "_code"]) != strtolower($_POST['codigo'])){
 			
+			$anderson_makiyama[self::PLUGIN_ID]->log_logins(__('Failed: image code did not match',self::CLASS_NAME),$options);
+			
 			wp_logout();
 			
 			echo "<script>alert('". __('The Image Code is incorrect! Try again!',self::CLASS_NAME) ."');document.location='" . wp_login_url() . "';</script>";
@@ -254,16 +342,38 @@ class Anderson_Makiyama_Captcha_On_Login{
 			exit;
 			
 			
-		}else{
-			
-			unset($_SESSION[self::CLASS_NAME . "_code"]);
-			
-			unset($_SESSION[self::CLASS_NAME . "_total_error_code"]);
-			
 		}
+		
+		return true;
 			
 	}
 	
+	
+	public function login_failed($errors){
+		
+		global $anderson_makiyama;
+		
+		$options = get_option(self::CLASS_NAME . "_options");
+		
+		$anderson_makiyama[self::PLUGIN_ID]->log_logins(__('Failed: Login or Password did not match',self::CLASS_NAME),$options);
+	
+		return($errors);
+		
+	}
+
+
+	public function login_success(){
+		
+		global $anderson_makiyama;
+		
+		$options = get_option(self::CLASS_NAME . "_options");
+		
+		$anderson_makiyama[self::PLUGIN_ID]->log_logins(__('Success',self::CLASS_NAME),$options);
+	
+		return true;
+		
+	}
+
 
 	public static function get_code($length){
 	
@@ -280,9 +390,7 @@ class Anderson_Makiyama_Captcha_On_Login{
 	}
 	
 
-	function block_ip(){
-			
-		$options = get_option(self::CLASS_NAME . "_options");
+	private function block_ip($options){
 		
 		if(!isset($options["ips"])){
 						   
@@ -302,11 +410,38 @@ class Anderson_Makiyama_Captcha_On_Login{
 		
 		$options["ips"] = $ips;
 		
+		unset($_SESSION[self::CLASS_NAME . "_total_error_code"]);
+		
+		return $options;
+		
+	}
+	
+	private function log_logins($status, $options){
+		
+		if(!isset($options["last_100_logins"])){
+						   
+			$last_100_logins = array();
+			
+		}else{
+			
+			$last_100_logins = $options["last_100_logins"];
+			
+		}
+			
+		$ip = $_SERVER['REMOTE_ADDR'];
+		
+		$today = date("d/m/Y H:i:s");
+			
+		$last_100_logins[] = array($ip,$today,$status);
+		
+		if(count($last_100_logins)>100) array_slice($last_100_logins,-1,100);
+		
+		$options["last_100_logins"] = $last_100_logins;
+		
 		update_option(self::CLASS_NAME . "_options",$options);
 		
 	}
 	
-
 	public static function get_data_array($data,$part=''){
 
 	   $data_ = array();
@@ -356,6 +491,12 @@ add_filter("admin_menu", array($anderson_makiyama[$anderson_makiyama_indice]->ge
 add_action('login_form', array($anderson_makiyama[$anderson_makiyama_indice]->get_static_var('CLASS_NAME'), 'add_to_login_form'));
 
 add_action('wp_authenticate', array($anderson_makiyama[$anderson_makiyama_indice]->get_static_var('CLASS_NAME'), 'check_code'));
+
+add_filter('login_errors', array($anderson_makiyama[$anderson_makiyama_indice]->get_static_var('CLASS_NAME'), 'login_failed'));
+
+add_filter('wp_login', array($anderson_makiyama[$anderson_makiyama_indice]->get_static_var('CLASS_NAME'), 'login_success'));
+
+
 
 register_activation_hook( __FILE__, array($anderson_makiyama[$anderson_makiyama_indice]->get_static_var('CLASS_NAME'), 'activation') );
 ?>

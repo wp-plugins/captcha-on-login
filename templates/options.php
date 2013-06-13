@@ -42,7 +42,23 @@
                 </select>
                 <small>( <?php _e('It stays locked during the current day',self::CLASS_NAME);?> )</small>
                 </p>               
+
+
+                 <p>
+                <label><?php _e('Remove Blocked IPs from the blacklist',self::CLASS_NAME);?>:</label>
+                <br /><input type="text" name="unblock_ips" class="regular-text" /> <small>( <?php _e('Separate the ips with commas',self::CLASS_NAME);?> )</small>
+               
+                </p> 
+ 
+ 
+                  <p>
+                <label><?php _e('Change your admin username and Improve your site security',self::CLASS_NAME);?>:</label>
+                <?php _e('Your Current username is',self::CLASS_NAME);?>: <strong><?php echo $user_login?></strong>
+                <br /><input type="text" name="username" class="regular-text" /> <small style="color:red">( <?php _e('Attention: Memorize your new username, because you will need it to be able to login',self::CLASS_NAME);?> )</small>
+               
+                </p> 
                 
+                                               
                 <p>
                 <input type="submit" name="submit" value="<?php _e('Save Changes', self::CLASS_NAME);?>" class="button-primary" />
 				</p>
