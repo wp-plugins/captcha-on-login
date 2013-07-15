@@ -7,6 +7,7 @@
 <p><?php _e('Set up the plugins Options at this page',self::CLASS_NAME)?></p>
     
   		<table width="100%"><tr>
+
         <td style="vertical-align:top">
  
  		<form action="" method="post">
@@ -106,36 +107,72 @@
         </form>
           
    		</td>
-        <td style="vertical-align:top; width:340px">
+        <td style="vertical-align:top; width:410px">
+
         
+
         <div class="metabox-holder">
+
 		<div class="postbox" >
+
         
+
         	<h3 style="font-size:24px; text-transform:uppercase;color:#F00;">
-        	<?php _e('Liked the plugin? Like my Sites!',self::CLASS_NAME);?>
+
+        	<?php _e('Take a Look!',self::CLASS_NAME);?>
+
             </h3>
+
             
-             <h3><a href="http://fazer-site.net" target="_blank">www.Fazer-Site.Net</a></h3>
+
+             <h3><?php _e('Best Wordpress Themes',self::CLASS_NAME)?>: <a href="http://plugin-wp.net/aff_elegantthemes" target="_blank">Elegant Themes</a></h3>
+
              
+
         	<div class="inside">
+
                 <p>
-                <iframe src="<?php echo $anderson_makiyama[self::PLUGIN_ID]->plugin_url?>author/profissionais.html" width="320" height="300" frameborder="0" scrolling="no"></iframe>
+
+                <a href="http://plugin-wp.net/aff_elegantthemes" target="_blank"><img src="<?php echo $anderson_makiyama[self::PLUGIN_ID]->plugin_url?>images/elegantthemes.jpg" ></a>
+
 				</p>
+
+
 
 			</div>
+
+ 
+ 		</div>
+        </div>
+        
+         <div class="metabox-holder">
+
+		<div class="postbox" >           
+
+            <h3><?php _e('Best Web Hosting for Wordpress',self::CLASS_NAME)?>: <a href="<?php _e('http://plugin-wp.net/aff_hostgator',self::CLASS_NAME)?>" target="_blank">Host Gator</a></h3>
+
             
-            <h3><a href="http://ganhardinheiroblog.net" target="_blank">www.GanharDinheiroBlog.Net</a></h3>
-            
+
         	<div class="inside">
+
                 <p>
-                <iframe src="<?php echo $anderson_makiyama[self::PLUGIN_ID]->plugin_url?>author/ganhardinheiroblog.html" width="320" height="300" frameborder="0" scrolling="no"></iframe>
+
+                <a href="<?php _e('http://plugin-wp.net/aff_hostgator',self::CLASS_NAME)?>" target="_blank"><img src="<?php echo $anderson_makiyama[self::PLUGIN_ID]->plugin_url?>images/hostgator.jpg"></a>
+
 				</p>
 
+
+
 			</div> 
+
                         
+
 		</div>
+
         </div>
+
               
+
        </td>
        </tr>
        </table>
@@ -166,7 +203,7 @@
 
 <li>
 
-<?php _e("Visit the author's site",self::CLASS_NAME);?>: <a href="http://ganhardinheiroblog.net" target="_blank">Ganhar Dinheiro Blog</a>
+<?php _e("Visit the author's site",self::CLASS_NAME);?>: <a href="http://plugin-wp.net" target="_blank">www.Plugin-WP.net</a>
 
 </li>
 

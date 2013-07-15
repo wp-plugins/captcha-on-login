@@ -1,6 +1,6 @@
 === Captcha on Login ===
 Contributors: Anderson.Makiyama
-Donate link: http://ganhardinheiroblog.net
+Donate link: http://plugin-wp.net
 Tags: capcha, login, plugin capcha, image on login, secure code to login
 Requires at least: 3.0
 Tested up to: 3.3
@@ -14,7 +14,7 @@ Nowadays, it is common hackers trying to get access to your blog, so, it is very
 
 Currently, the plugin also allow us to change the default admin username from admin to whatever you want. Changing the username of the admin is a great idea to prevent brute force atacks and turn your blog more secure.
 
-Since version 1.0 the plugin has a report page, where you can see blocked ips and last 100 sucess and failed logins and you can unblock blocked ips you wish. 
+Since version 1.0 the plugin has a report page, where you can see blocked ips and last 1000 sucess and failed logins and you can unblock blocked ips you wish. 
  
 == Installation ==
 
@@ -37,7 +37,7 @@ You should have received a copy of the GNU General Public License along with Pub
 == Frequently Asked Questions ==
 
 = May I suggest ideas and modification to this plugin? =
-Yes, you can, just leave a comment at [Captcha on Login](http://fazer-site.net/plugin-captcha-on-login-para-wordpress#comments)
+Yes, you can, just leave a comment at [Captcha on Login](http://plugin-wp.net/captcha-on-login)
 
 == Screenshots ==
 1. WP Login Page with "Captcha on Login" plugin enabled
@@ -53,3 +53,6 @@ Yes, you can, just leave a comment at [Captcha on Login](http://fazer-site.net/p
 * Added an option to unblock blocked ips
 * Added an report page where you can see all blocked ips and the last 100 sucess or failed logins
 * Added an option to change default admin username and increase the security of your blog
+
+= 1.1 =
+* Changed the report page from last 100 logins to last 1000 logins and fixed a little bug.

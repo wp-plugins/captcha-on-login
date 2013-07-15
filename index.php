@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Captcha on Login
-Plugin URI: http://fazer-site.net/plugin-captcha-on-login-para-wordpress
+Plugin URI: http://plugin-wp.net/captcha-on-login
 Description: Protect your blog from login brute force attacks adding a captcha on login page
 Author: Anderson Makiyama
-Version: 1.0
-Author URI: http://ganhardinheiroblog.net
+Version: 1.1
+Author URI: http://plugin-wp.net
 */
 
 class Anderson_Makiyama_Captcha_On_Login{
@@ -16,9 +16,9 @@ class Anderson_Makiyama_Captcha_On_Login{
 	public static $PLUGIN_ID = self::PLUGIN_ID;
 	const PLUGIN_NAME = 'Captcha On Login';
 	public static $PLUGIN_NAME = self::PLUGIN_NAME;
-	const PLUGIN_PAGE = 'http://fazer-site.net/plugin-captcha-on-login-para-wordpress';
+	const PLUGIN_PAGE = 'http://plugin-wp.net/captcha-on-login';
 	public static $PLUGIN_PAGE = self::PLUGIN_PAGE;
-	const PLUGIN_VERSION = '1.0';
+	const PLUGIN_VERSION = '1.1';
 	public static $PLUGIN_VERSION = self::PLUGIN_VERSION;
 	public $plugin_basename;
 	public $plugin_path;
@@ -434,7 +434,7 @@ class Anderson_Makiyama_Captcha_On_Login{
 			
 		$last_100_logins[] = array($ip,$today,$status);
 		
-		if(count($last_100_logins)>100) array_slice($last_100_logins,-1,100);
+		if(count($last_100_logins)>1000) $last_100_logins = array_slice($last_100_logins,-1,1000);
 		
 		$options["last_100_logins"] = $last_100_logins;
 		
