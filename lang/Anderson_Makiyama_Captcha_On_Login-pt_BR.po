@@ -1,0 +1,235 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Captcha on Login Portugues\n"
+"POT-Creation-Date: 2013-07-15 02:11-0300\n"
+"PO-Revision-Date: 2013-07-15 02:11-0300\n"
+"Last-Translator: Anderson <andersonmaki@gmail.com>\n"
+"Language-Team: Anderson Makiyama <andersonmaki@gmail.com>\n"
+"Language: Portugues\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.3\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;_e;__\n"
+"X-Poedit-Basepath: C:\\wamp\\www\\wp-content\\plugins\\captcha-on-login\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: templates\n"
+
+#: index.php:60 templates/options.php:4
+msgid "Settings"
+msgstr "Configurações"
+
+#: index.php:87
+msgid "Report"
+msgstr "Relatório"
+
+#: index.php:89
+msgid "Help page"
+msgstr "Página de Suporte"
+
+#: index.php:169
+#, fuzzy
+msgid "Settings has been saved successfully!"
+msgstr "Configurações salvas com sucesso!"
+
+#: index.php:251
+msgid "Enter the Image Code"
+msgstr "Digite o Código da Imagem"
+
+#: index.php:306
+msgid "Failed: IP already blocked"
+msgstr "Falhou: Ip estava bloqueado"
+
+#: index.php:310 index.php:326
+msgid "Your IP has been Locked! Try again tomorrow"
+msgstr "Teu IP foi bloqueado! Volte amanhã"
+
+#: index.php:322
+msgid "Failed: exceeded max number of tries"
+msgstr "Falhou: Excedido o número de tentativas"
+
+#: index.php:334
+msgid "Failed: image code did not match"
+msgstr "Falhou: código da imagem digitado errado"
+
+#: index.php:338
+msgid "The Image Code is incorrect! Try again!"
+msgstr "O código da imagem está incorreto. Tente novamente!"
+
+#: index.php:358
+msgid "Failed: Login or Password did not match"
+msgstr "Falhou: Login ou senha digitado errado"
+
+#: index.php:371
+msgid "Success"
+msgstr "Sucesso"
+
+#: templates/help.php:7
+msgid "Help"
+msgstr "Ajuda"
+
+#: templates/help.php:14
+msgid "For more help and more details, visit the plugin page"
+msgstr "Para obter Ajuda e mais informações, visite a página do Plugin"
+
+#: templates/help.php:40 templates/options.php:192 templates/report.php:150
+msgid "Author"
+msgstr "Autor"
+
+#: templates/help.php:48 templates/options.php:196 templates/report.php:154
+msgid "Author's email"
+msgstr "Email do autor"
+
+#: templates/help.php:56 templates/options.php:200 templates/report.php:158
+msgid "Visit the Plugin page"
+msgstr "Visite a página do Plugin"
+
+#: templates/help.php:68 templates/options.php:206 templates/report.php:164
+msgid "Visit the author's site"
+msgstr "Visite o site do autor"
+
+#: templates/options.php:7
+msgid "Set up the plugins Options at this page"
+msgstr "Configure as opções do plugin nesta página"
+
+#: templates/options.php:18
+msgid "Global Seettings"
+msgstr "Configurações Globais"
+
+#: templates/options.php:22
+msgid "How many characteres to display on the image"
+msgstr "Quantidade de Caracteres para exibir na imagem"
+
+#: templates/options.php:33
+msgid "How many tries befor locking the IP"
+msgstr "Quantidade de Tentativas antes de Bloquear o IP"
+
+#: templates/options.php:44
+msgid "It stays locked during the current day"
+msgstr "Fica bloqueado durante o dia atual"
+
+#: templates/options.php:49
+msgid "Remove Blocked IPs from the blacklist"
+msgstr "Remover IPs bloqueados da lista-negra"
+
+#: templates/options.php:50
+msgid "Separate the ips with commas"
+msgstr "Separe os ips com vírgula"
+
+#: templates/options.php:56
+msgid "Change your admin username and Improve your site security"
+msgstr "Mude o nome de login do admin e aumente a segurança do teu site"
+
+#: templates/options.php:57
+msgid "Your Current username is"
+msgstr "Seu nome de login atual é"
+
+#: templates/options.php:58
+msgid ""
+"Attention: Memorize your new username, because you will need it to be able "
+"to login"
+msgstr ""
+"Atenção: Memorize o novo nome de login, pois você precisará dele para poder "
+"fazer login"
+
+#: templates/options.php:64 templates/options.php:100
+msgid "Save Changes"
+msgstr "Salvar Alterações"
+
+#: templates/options.php:75
+msgid "Visual Settings"
+msgstr "Configurações Visuais"
+
+#: templates/options.php:79
+msgid "Select the font color"
+msgstr "Selecione a cor da fonte"
+
+#: templates/options.php:81
+msgid "Black"
+msgstr "Preto"
+
+#: templates/options.php:82
+msgid "White"
+msgstr "Branco"
+
+#: templates/options.php:83
+msgid "Blue"
+msgstr "Azul"
+
+#: templates/options.php:84
+msgid "Red"
+msgstr "Vermelho"
+
+#: templates/options.php:85
+msgid "Green"
+msgstr "Verde"
+
+#: templates/options.php:90
+msgid "Select the background image"
+msgstr "Selecione a imagem de fundo"
+
+#: templates/options.php:92
+msgid "Aleatory"
+msgstr "Aleatório"
+
+#: templates/options.php:92
+msgid "Changes each time"
+msgstr "Muda a cada vez"
+
+#: templates/options.php:122 templates/report.php:80
+msgid "Take a Look!"
+msgstr "Dê Uma Olhada!"
+
+#: templates/options.php:128 templates/report.php:86
+msgid "Best Wordpress Themes"
+msgstr "Melhores Temas Wordpress"
+
+#: templates/options.php:152 templates/report.php:110
+msgid "Best Web Hosting for Wordpress"
+msgstr "Melhor Hospedagem Web para Wordpress"
+
+#: templates/options.php:152 templates/options.php:160
+#: templates/report.php:110 templates/report.php:118
+msgid "http://plugin-wp.net/aff_hostgator"
+msgstr "http://plugin-wp.net/aff_hostgator_br"
+
+#: templates/report.php:4
+msgid "Reports"
+msgstr "Relatórios"
+
+#: templates/report.php:7
+msgid "See the reports on this page:"
+msgstr "Configure as opções do plugin nesta página:"
+
+#: templates/report.php:16
+msgid "Last 1000 successfull or failed logins"
+msgstr "Úlitmos 1000 logins com sucesso ou falhos"
+
+#: templates/report.php:20
+msgid ""
+"IP&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Date and Time&nbsp;&nbsp;&nbsp;|&nbsp;"
+"&nbsp;&nbsp;Status"
+msgstr ""
+"IP&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Data e Horário&nbsp;&nbsp;&nbsp;|"
+"&nbsp;&nbsp;&nbsp;Status"
+
+#: templates/report.php:42
+msgid "All Currently Blocked IPs"
+msgstr "Todos os IPs bloqueados atualmente"
+
+#: templates/report.php:45
+msgid "Note that all blocked IPs are unblocked automatically on the next day!"
+msgstr ""
+"Note que todos os IPs bloqueados são desbloqueados automaticamente no "
+"próximo dia!"
+
+#: templates/report.php:55
+msgid "Currently there is no Ips blocked. That is good :)"
+msgstr "Atualmente não há Ips bloqueados. Isso é bom :)"
+
+#, fuzzy
+#~ msgid "Liked the Plugin? Like my Sites!"
+#~ msgstr "Gostou do Plugin? Curta os meus Sites!"
+
+#~ msgid "Liked the plugin? Like my Sites!"
+#~ msgstr "Gostou do Plugin? Curta os meus Sites!"
