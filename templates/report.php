@@ -2,14 +2,11 @@
 <div class="icon32"><img src='<?php echo plugins_url('/images/icon-32.png', dirname(__FILE__))?>' /></div>
         
 <h2><?php echo self::PLUGIN_NAME?> <?php echo __('Reports', self::CLASS_NAME)?>:</h2>
-
-
-<p><?php _e('See the reports on this page:',self::CLASS_NAME)?></p>
     
   		<table width="100%"><tr>
         <td style="vertical-align:top">
  
- 		<form action="" method="post">
+ 		
         
         <div class="metabox-holder">         
 		<div class="postbox" >
@@ -42,7 +39,12 @@
         	<h3><?php _e('All Currently Blocked IPs', self::CLASS_NAME);?></h3>
         
         	<div class="inside">
-            	<label><?php _e('Note that all blocked IPs are unblocked automatically on the next day!', self::CLASS_NAME);?></label>
+            
+            	<table width="100%">
+                <tr>
+                <td width="50%">
+                <h4><?php _e('Temporary Blocked IPs', self::CLASS_NAME);?></h4>
+            	
             	<p>
                     <select name="blocked_ips" size="10" multiple="multiple" >
                         <?php
@@ -56,13 +58,35 @@
                         ?>
                     </select>
                 </p>
-            
+            	<label><?php _e('Note that temporary blocked IPs are unblocked<br> automatically on the next day!', self::CLASS_NAME);?></label>
+				</td>
+                <td width="50%">
 
+                <h4 style="color:red;"><?php _e('Permanent Blocked IPs', self::CLASS_NAME);?></h4>
+            	
+            	<p>
+                    <select name="permanent_blocked_ips" size="10" multiple="multiple" >
+                        <?php
+                        foreach($permanent_ips as $p_ip):
+                        ?>
+                        <option><?php echo $p_ip;?></option>
+                        <?php
+                        endforeach;
+						
+						if(empty($permanent_ips)) echo "<option>" . __('Currently there is no Permanent Ips blocked. That is good :)', self::CLASS_NAME) . "</option>";
+                        ?>
+                    </select>
+                </p>
+                <label><?php _e('Note that permanent blocked IPs keep blocked<br>until you unblock it manually!', self::CLASS_NAME);?></label>                
+                </td>
+                </tr>
+                </table>
+                
 			</div>
 		</div>
         </div>
                 
-        </form>
+        
           
    		</td>
         <td style="vertical-align:top; width:410px">
@@ -107,7 +131,7 @@
 
 		<div class="postbox" >           
 
-            <h3><?php _e('Best Web Hosting for Wordpress',self::CLASS_NAME)?>: <a href="<?php _e('http://plugin-wp.net/aff_hostgator',self::CLASS_NAME)?>" target="_blank">Host Gator</a></h3>
+            <h3><?php _e('Best Autoresponder for Email Marketing',self::CLASS_NAME)?>: <a href="http://plugin-wp.net/aff_trafficwave" target="_blank">TrafficWave</a></h3>
 
             
 
@@ -115,7 +139,7 @@
 
                 <p>
 
-                <a href="<?php _e('http://plugin-wp.net/aff_hostgator',self::CLASS_NAME)?>" target="_blank"><img src="<?php echo $anderson_makiyama[self::PLUGIN_ID]->plugin_url?>images/hostgator.jpg"></a>
+                <a href="http://plugin-wp.net/aff_trafficwave" target="_blank"><img src="<?php echo $anderson_makiyama[self::PLUGIN_ID]->plugin_url?>images/trafficwave.jpg"></a>
 
 				</p>
 

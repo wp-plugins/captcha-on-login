@@ -1,21 +1,44 @@
 === Captcha on Login ===
 Contributors: Anderson.Makiyama
-Donate link: http://plugin-wp.net
 Tags: capcha, login, plugin capcha, image on login, secure code to login
 Requires at least: 3.0
-Tested up to: 3.3
+Tested up to: 3.9.1
 Stable tag: trunk
 
 Protect your blog from login brute force attacks adding a captcha on login page of your site 
 
 == Description ==
 
+**Overview**
+
 Nowadays, it is common hackers trying to get access to your blog, so, it is very important you make some actions to prevent your blog from being hacked. A good way to turn the login system of your blog more secure is to use that plugin Captcha on Login. It will Protect your blog from login brute force attacks adding a captcha on login page. That plugin also locks IPS after a specific number of login tries failed, note that on the plugin's options page you can set these numbers.
 
 Currently, the plugin also allow us to change the default admin username from admin to whatever you want. Changing the username of the admin is a great idea to prevent brute force atacks and turn your blog more secure.
 
-Since version 1.0 the plugin has a report page, where you can see blocked ips and last 1000 sucess and failed logins and you can unblock blocked ips you wish. 
+https://www.youtube.com/watch?v=4VCSiDpJvfQ
+
+**Features**
+
+* Limit the number of login attempts throught wp login form as well as auth cookies.
+
+* Option to change admin username and grown up the security
+
+* Report page, where you can see blocked ips and last 1000 sucess and failed logins. 
+
+* Option to block IPs permanently
+
+* Option to unblock IPs
+
+* Option to define maximum number of login attempts befor locking the ip
+
+* Some visual options, as background image, color of text, number of characters, etc.
+
+**Sobre**
+
+The plugin Captcha on Login was created by Anderson Makiyama of [Plugin Wordpress](http://plugin-wp.net)
+
  
+
 == Installation ==
 
 To install, just follow this steps:
@@ -56,3 +79,8 @@ Yes, you can, just leave a comment at [Captcha on Login](http://plugin-wp.net/ca
 
 = 1.1 =
 * Changed the report page from last 100 logins to last 1000 logins and fixed a little bug.
+
+= 2.0 =
+* The plugin started limiting also the number of login attempts using auth cookies
+* The plugin allows you adding permanent blocked ips
+* Added an report are for see all permanent blocked ips

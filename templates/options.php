@@ -2,16 +2,15 @@
 <div class="icon32"><img src='<?php echo plugins_url('/images/icon-32.png', dirname(__FILE__))?>' /></div>
         
 <h2><?php echo __('Settings', self::CLASS_NAME)?> <?php echo self::PLUGIN_NAME?>:</h2>
-
-
-<p><?php _e('Set up the plugins Options at this page',self::CLASS_NAME)?></p>
     
   		<table width="100%"><tr>
 
         <td style="vertical-align:top">
  
  		<form action="" method="post">
-        
+        		<?php
+                 wp_nonce_field('update',self::CLASS_NAME);
+				?>
         <div class="metabox-holder">         
 		<div class="postbox" >
         
@@ -46,7 +45,7 @@
 
 
                  <p>
-                <label><?php _e('Remove Blocked IPs from the blacklist',self::CLASS_NAME);?>:</label>
+                <label><?php _e('Remove Blocked IPs from the blacklists',self::CLASS_NAME);?>:</label>
                 <br /><input type="text" name="unblock_ips" class="regular-text" /> <small>( <?php _e('Separate the ips with commas',self::CLASS_NAME);?> )</small>
                
                 </p> 
@@ -59,7 +58,13 @@
                
                 </p> 
                 
-                                               
+
+                 <p>
+                <label><?php _e('Add IPs into permanent blacklist',self::CLASS_NAME);?>:</label>
+                <br /><input type="text" name="block_ips" class="regular-text" /> <small>( <?php _e('Separate the ips with commas',self::CLASS_NAME);?> )</small>
+               
+                </p> 
+                                                               
                 <p>
                 <input type="submit" name="submit" value="<?php _e('Save Changes', self::CLASS_NAME);?>" class="button-primary" />
 				</p>
@@ -76,8 +81,7 @@
         
         	<div class="inside">
             	<p>
-                	<h4><?php _e("Select the font color",self::CLASS_NAME);?></h4>
-                    <select name="font_color" >
+                    <?php _e("Select the font color",self::CLASS_NAME);?>  <select name="font_color" >
                         <option value="0x00000000" style="color:#000" <?php echo self::is_selected("0x00000000",$options["font_color"])?>><?php _e('Black',self::CLASS_NAME);?></option>
                         <option value="0x00ffffff" style="color:#000" <?php echo self::is_selected("0x00ffffff",$options["font_color"])?>><?php _e('White',self::CLASS_NAME);?></option>
                         <option value="0x000099cc" style="color:#00F" <?php echo self::is_selected("0x000099cc",$options["font_color"])?>><?php _e('Blue',self::CLASS_NAME);?></option>
@@ -89,11 +93,12 @@
                 <p>
                 <h4> <?php _e('Select the background image',self::CLASS_NAME);?> </h4>
                 <?php
-				 	echo "<input type='radio' name='background' value='' " . self::is_checked(0,$options["background"]) . "> ". __('Aleatory',self::CLASS_NAME) ." <small>( ". __('Changes each time',self::CLASS_NAME) ." )</small><br>";
+				 	
                 	for($i=1;$i<9;$i++){
 						echo '<input type="radio" name="background" value="'.$i.'" ' . self::is_checked($i,$options["background"]) . '><img src="'. $anderson_makiyama[self::PLUGIN_ID]->plugin_url . 'images/'. $i .'.jpg">';
-						if($i%2 ==0) echo "<br>";
+						if($i%3 ==0) echo "<br>";
                     }
+					echo "<input type='radio' name='background' value='' " . self::is_checked(0,$options["background"]) . "> ". __('Aleatory',self::CLASS_NAME) ." <small>( ". __('Changes each time',self::CLASS_NAME) ." )</small><br>";
                 ?>
                 </p>
                 <p>
@@ -149,7 +154,7 @@
 
 		<div class="postbox" >           
 
-            <h3><?php _e('Best Web Hosting for Wordpress',self::CLASS_NAME)?>: <a href="<?php _e('http://plugin-wp.net/aff_hostgator',self::CLASS_NAME)?>" target="_blank">Host Gator</a></h3>
+            <h3><?php _e('Best Autoresponder for Email Marketing',self::CLASS_NAME)?>: <a href="http://plugin-wp.net/aff_trafficwave" target="_blank">TrafficWave</a></h3>
 
             
 
@@ -157,7 +162,7 @@
 
                 <p>
 
-                <a href="<?php _e('http://plugin-wp.net/aff_hostgator',self::CLASS_NAME)?>" target="_blank"><img src="<?php echo $anderson_makiyama[self::PLUGIN_ID]->plugin_url?>images/hostgator.jpg"></a>
+                <a href="http://plugin-wp.net/aff_trafficwave" target="_blank"><img src="<?php echo $anderson_makiyama[self::PLUGIN_ID]->plugin_url?>images/trafficwave.jpg"></a>
 
 				</p>
 

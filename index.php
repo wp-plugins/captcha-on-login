@@ -4,7 +4,7 @@ Plugin Name: Captcha on Login
 Plugin URI: http://plugin-wp.net/captcha-on-login
 Description: Protect your blog from login brute force attacks adding a captcha on login page
 Author: Anderson Makiyama
-Version: 1.1
+Version: 2.0
 Author URI: http://plugin-wp.net
 */
 
@@ -18,7 +18,7 @@ class Anderson_Makiyama_Captcha_On_Login{
 	public static $PLUGIN_NAME = self::PLUGIN_NAME;
 	const PLUGIN_PAGE = 'http://plugin-wp.net/captcha-on-login';
 	public static $PLUGIN_PAGE = self::PLUGIN_PAGE;
-	const PLUGIN_VERSION = '1.1';
+	const PLUGIN_VERSION = '2.0';
 	public static $PLUGIN_VERSION = self::PLUGIN_VERSION;
 	public $plugin_basename;
 	public $plugin_path;
@@ -87,6 +87,10 @@ class Anderson_Makiyama_Captcha_On_Login{
 		 add_submenu_page(self::CLASS_NAME, self::PLUGIN_NAME,__('Report',self::CLASS_NAME),1, self::CLASS_NAME . "_Report", array(self::CLASS_NAME,'report_page'));
 		 
 		 add_submenu_page(self::CLASS_NAME, self::PLUGIN_NAME,__('Help page',self::CLASS_NAME),1, self::CLASS_NAME . "_Help", array(self::CLASS_NAME,'help_page'));
+		 
+		 global $submenu;
+		 if ( isset( $submenu[self::CLASS_NAME] ) )
+			$submenu[self::CLASS_NAME][0][0] = __('Settings',self::CLASS_NAME);
 
 	}	
 
@@ -108,6 +112,13 @@ class Anderson_Makiyama_Captcha_On_Login{
 
 		if ($_POST['submit']) {
 
+			if(!wp_verify_nonce( $_POST[self::CLASS_NAME], 'update' ) ){
+				
+				print 'Sorry, your nonce did not verify.';
+  				exit;
+   
+			}
+			
 			$options['length'] = $_POST['length'];
 			$options['background'] = $_POST['background'];
 			$options['font_color'] = $_POST['font_color'];
@@ -117,6 +128,19 @@ class Anderson_Makiyama_Captcha_On_Login{
 			
 			$unblock_ips = $_POST['unblock_ips'];
 			
+			$block_ips = $_POST['block_ips'];
+
+			//Se não existe, cria $permanent_ips
+			if(!isset($options["permanent_ips"])){
+							   
+				$permanent_ips = array();
+				
+			}else{
+				
+				$permanent_ips = $options["permanent_ips"];
+				
+			}//
+							
 			if(!empty($unblock_ips)){
 			
 				$unblock_ips = explode(",",$unblock_ips);
@@ -132,6 +156,8 @@ class Anderson_Makiyama_Captcha_On_Login{
 					
 				}
 				
+				//Controla ips bloqueado do dia
+				
 				$keep_ips = array();
 				
 				foreach($ips as $ip){
@@ -144,7 +170,34 @@ class Anderson_Makiyama_Captcha_On_Login{
 				
 				$options["ips"] = $keep_ips;
 				
+				//Controla ips permanentemente bloqueados
+				
+				$keep_p_ips = array();
+				
+				foreach($permanent_ips as $p_ip){
+					
+					if(in_array($p_ip,$unblock_ips)) continue;
+					
+					$keep_p_ips[] = $p_ip;
+					
+				}
+				
+				$options["permanent_ips"] = $keep_p_ips;				
+				
 			}
+			
+			if(!empty($block_ips)){//Adiciona na lista de ips bloqueados permanentemente
+
+				$block_ips = explode(",",$block_ips);
+				$block_ips = array_map('trim',$block_ips);
+				
+				$permanent_ips = array_merge($permanent_ips,$block_ips);
+				$permanent_ips = array_unique($permanent_ips);
+				
+				$options["permanent_ips"] = $permanent_ips;				
+				
+			}
+			
 
 			update_option(self::CLASS_NAME . "_options", $options);
 			
@@ -204,7 +257,7 @@ class Anderson_Makiyama_Captcha_On_Login{
 		
 		$last_100_logins = array_reverse($last_100_logins);
 		
-
+		//IPs bloqueados do dia
 		if(!isset($options["ips"])){
 						   
 			$ips = array();
@@ -215,6 +268,17 @@ class Anderson_Makiyama_Captcha_On_Login{
 			
 		}
 
+		//IPs permanentemente bloqueados
+		if(!isset($options["permanent_ips"])){
+						   
+			$permanent_ips = array();
+			
+		}else{
+			
+			$permanent_ips = $options["permanent_ips"];
+			
+		}
+		
 		include("templates/report.php");
 
 	}		
@@ -256,13 +320,13 @@ class Anderson_Makiyama_Captcha_On_Login{
 	}
 	
 	
-	public function check_code(){
+	public function check_code($cookie_checking=false){
 		
 		global $anderson_makiyama; 
 		
 		if(!session_id()) session_start();
 		
-		if(!isset($_POST["log"])) return;
+		if(!isset($_POST["log"]) && !$cookie_checking) return; //Sem envio do formulario e não é checagem de cookie
 		
 		$total_error_code = isset($_SESSION[self::CLASS_NAME . "_total_error_code"])?$_SESSION[self::CLASS_NAME . "_total_error_code"]:0;
 		
@@ -277,6 +341,7 @@ class Anderson_Makiyama_Captcha_On_Login{
 		
 		$bloqueado = false;
 
+		//Verifica se não está entre os ips bloqueados do dia
 		if(!isset($options["ips"])){
 						   
 			$ips = array();
@@ -299,7 +364,19 @@ class Anderson_Makiyama_Captcha_On_Login{
 		}
 		
 		$options["ips"] = $day_ips;
-		
+		//
+
+		//Verifica se não está na lista permanente de ips bloqueados
+		if(!isset($options["permanent_ips"])){
+						   
+			$permanent_ips = array();
+			
+		}else{
+			
+			$permanent_ips = $options["permanent_ips"];	
+			if(in_array($ip,$permanent_ips)) $bloqueado = true;
+		}
+		//		
 		
 		if($bloqueado){
 			
@@ -347,8 +424,7 @@ class Anderson_Makiyama_Captcha_On_Login{
 		return true;
 			
 	}
-	
-	
+		
 	public function login_failed($errors){
 		
 		global $anderson_makiyama;
@@ -367,7 +443,8 @@ class Anderson_Makiyama_Captcha_On_Login{
 		global $anderson_makiyama;
 		
 		$options = get_option(self::CLASS_NAME . "_options");
-		
+
+		//Verifica se Não Foi Bloqueado já		
 		$anderson_makiyama[self::PLUGIN_ID]->log_logins(__('Success',self::CLASS_NAME),$options);
 	
 		return true;
@@ -475,6 +552,111 @@ class Anderson_Makiyama_Captcha_On_Login{
 
 	}	
 	
+	
+	public function cookie_bad_username($cookie_elements) {
+		
+		self::clear_auth_cookie();
+		
+		self::check_code(true);
+	
+	}
+
+	public function cookie_bad_hash($cookie_elements) {
+		
+		self::clear_auth_cookie();
+		
+		self::check_code(true);
+	
+	}
+	
+	public function check_blocked_ips_befor_all(){
+		
+		global $anderson_makiyama;
+		
+		$options = get_option(self::CLASS_NAME . "_options");
+		
+		//Verifica se não está entre os IPs bloqueados do dia
+		$ip = $_SERVER['REMOTE_ADDR'];
+		
+		$today = date("Y-m-d");
+		
+		$bloqueado = false;
+
+		if(!isset($options["ips"])){
+						   
+			$ips = array();
+			
+		}else{
+			
+			$ips = $options["ips"];	
+			
+		}
+		
+		for($i=0;$i<count($ips);$i++){
+			
+			if($ips[$i][1] == $today){
+				
+				if($ips[$i][0] == $ip) $bloqueado = true;
+				
+			}
+			
+		}
+		
+		//
+		
+		//Verifica se não está na lista permanente de ips bloqueados
+		if(!isset($options["permanent_ips"])){
+						   
+			$permanent_ips = array();
+			
+		}else{
+			
+			$permanent_ips = $options["permanent_ips"];	
+			if(in_array($ip,$permanent_ips)) $bloqueado = true;
+		}
+		//			
+		
+		if($bloqueado){
+			
+			if(is_admin()) $anderson_makiyama[self::PLUGIN_ID]->log_logins(__('Failed: IP already blocked',self::CLASS_NAME),$options);
+			
+			self::clear_auth_cookie();
+			wp_logout();
+			
+		}
+		
+				
+		
+	}
+		
+	protected function clear_auth_cookie() { 
+		
+		wp_clear_auth_cookie();//Remove todos os cookies associados com autenticação
+		
+		//Para assegurar, Limpa manualmente os cookies
+	
+		setcookie( AUTH_COOKIE,        ' ', time() - YEAR_IN_SECONDS, ADMIN_COOKIE_PATH,   COOKIE_DOMAIN );
+		setcookie( SECURE_AUTH_COOKIE, ' ', time() - YEAR_IN_SECONDS, ADMIN_COOKIE_PATH,   COOKIE_DOMAIN );
+		setcookie( AUTH_COOKIE,        ' ', time() - YEAR_IN_SECONDS, PLUGINS_COOKIE_PATH, COOKIE_DOMAIN );
+		setcookie( SECURE_AUTH_COOKIE, ' ', time() - YEAR_IN_SECONDS, PLUGINS_COOKIE_PATH, COOKIE_DOMAIN );
+		setcookie( LOGGED_IN_COOKIE,   ' ', time() - YEAR_IN_SECONDS, COOKIEPATH,          COOKIE_DOMAIN );
+		setcookie( LOGGED_IN_COOKIE,   ' ', time() - YEAR_IN_SECONDS, SITECOOKIEPATH,      COOKIE_DOMAIN );
+	
+		// Old cookies
+		setcookie( AUTH_COOKIE,        ' ', time() - YEAR_IN_SECONDS, COOKIEPATH,     COOKIE_DOMAIN );
+		setcookie( AUTH_COOKIE,        ' ', time() - YEAR_IN_SECONDS, SITECOOKIEPATH, COOKIE_DOMAIN );
+		setcookie( SECURE_AUTH_COOKIE, ' ', time() - YEAR_IN_SECONDS, COOKIEPATH,     COOKIE_DOMAIN );
+		setcookie( SECURE_AUTH_COOKIE, ' ', time() - YEAR_IN_SECONDS, SITECOOKIEPATH, COOKIE_DOMAIN );
+	
+		// Even older cookies
+		setcookie( USER_COOKIE, ' ', time() - YEAR_IN_SECONDS, COOKIEPATH,     COOKIE_DOMAIN );
+		setcookie( PASS_COOKIE, ' ', time() - YEAR_IN_SECONDS, COOKIEPATH,     COOKIE_DOMAIN );
+		setcookie( USER_COOKIE, ' ', time() - YEAR_IN_SECONDS, SITECOOKIEPATH, COOKIE_DOMAIN );
+		setcookie( PASS_COOKIE, ' ', time() - YEAR_IN_SECONDS, SITECOOKIEPATH, COOKIE_DOMAIN );
+
+		
+	}
+	
 
 }
 
@@ -497,6 +679,16 @@ add_filter('login_errors', array($anderson_makiyama[$anderson_makiyama_indice]->
 add_filter('wp_login', array($anderson_makiyama[$anderson_makiyama_indice]->get_static_var('CLASS_NAME'), 'login_success'));
 
 
+add_action('auth_cookie_bad_username', array($anderson_makiyama[$anderson_makiyama_indice]->get_static_var('CLASS_NAME'), 'cookie_bad_username'));
+add_action('auth_cookie_bad_hash', array($anderson_makiyama[$anderson_makiyama_indice]->get_static_var('CLASS_NAME'), 'cookie_bad_hash'));
+
+//add_filter('wp_authenticate_user', '');
+//add_filter('shake_error_codes', '');
+//add_action('login_head', '');
+//add_action('auth_cookie_valid','');
 
 register_activation_hook( __FILE__, array($anderson_makiyama[$anderson_makiyama_indice]->get_static_var('CLASS_NAME'), 'activation') );
+
+add_action('plugins_loaded', array($anderson_makiyama[$anderson_makiyama_indice]->get_static_var('CLASS_NAME'), 'check_blocked_ips_befor_all'),0);
+
 ?>
