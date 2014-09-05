@@ -2,7 +2,7 @@
 Contributors: Anderson.Makiyama
 Tags: capcha, login, plugin capcha, image on login, secure code to login
 Requires at least: 3.0
-Tested up to: 3.9.1
+Tested up to: 4.0
 Stable tag: trunk
 
 Protect your blog from login brute force attacks adding a captcha on login page of your site 
