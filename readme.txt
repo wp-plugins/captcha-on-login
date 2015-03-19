@@ -84,3 +84,6 @@ Yes, you can, just leave a comment at [Captcha on Login](http://plugin-wp.net/ca
 * The plugin started limiting also the number of login attempts using auth cookies
 * The plugin allows you adding permanent blocked ips
 * Added an report are for see all permanent blocked ips
+
+= 2.1 =
+* Now working even when GD is not installed on the server

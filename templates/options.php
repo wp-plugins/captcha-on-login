@@ -1,3 +1,137 @@
+<?php
+global $anderson_makiyama, $wpdb, $user_ID, $user_level, $user_login;
+
+get_currentuserinfo();
+
+if ($user_level < 10) { //Limita acesso para somente administradores
+
+	return;
+
+}	
+
+$options = get_option(self::CLASS_NAME . "_options");
+
+if ($_POST['submit']) {
+
+	if(!wp_verify_nonce( $_POST[self::CLASS_NAME], 'update' ) ){
+		
+		print 'Sorry, your nonce did not verify.';
+		exit;
+
+	}
+	
+	$options['length'] = $_POST['length'];
+	$options['background'] = $_POST['background'];
+	$options['font_color'] = $_POST['font_color'];
+	$options['tentativas'] = $_POST['tentativas'];
+	
+	$admin_login = trim($_POST['username']);
+	$admin_login2 = trim($_POST['username2']);
+	
+	$unblock_ips = $_POST['unblock_ips'];
+	
+	$block_ips = $_POST['block_ips'];
+
+	//Se nao existe, cria $permanent_ips
+	if(!isset($options["permanent_ips"])){
+					   
+		$permanent_ips = array();
+		
+	}else{
+		
+		$permanent_ips = $options["permanent_ips"];
+		
+	}//
+					
+	if(!empty($unblock_ips)){
+	
+		$unblock_ips = explode(",",$unblock_ips);
+		$unblock_ips = array_map('trim',$unblock_ips);
+		
+		if(!isset($options["ips"])){
+						   
+			$ips = array();
+			
+		}else{
+			
+			$ips = $options["ips"];
+			
+		}
+		
+		//Controla ips bloqueado do dia
+		
+		$keep_ips = array();
+		
+		foreach($ips as $ip){
+			
+			if(in_array($ip[0],$unblock_ips)) continue;
+			
+			$keep_ips[] = $ip;
+			
+		}
+		
+		$options["ips"] = $keep_ips;
+		
+		//Controla ips permanentemente bloqueados
+		
+		$keep_p_ips = array();
+		
+		foreach($permanent_ips as $p_ip){
+			
+			if(in_array($p_ip,$unblock_ips)) continue;
+			
+			$keep_p_ips[] = $p_ip;
+			
+		}
+		
+		$options["permanent_ips"] = $keep_p_ips;				
+		
+	}
+	
+	if(!empty($block_ips)){//Adiciona na lista de ips bloqueados permanentemente
+
+		$block_ips = explode(",",$block_ips);
+		$block_ips = array_map('trim',$block_ips);
+		
+		$permanent_ips = array_merge($permanent_ips,$block_ips);
+		$permanent_ips = array_unique($permanent_ips);
+		
+		$options["permanent_ips"] = $permanent_ips;				
+		
+	}
+	
+
+	update_option(self::CLASS_NAME . "_options", $options);
+	
+	
+	if(!empty($admin_login)){
+	
+		if($admin_login != $admin_login2){
+			
+			echo "<script>alert('". __('Admin Login has not been update beauce confirmation field dont matched! Try Again!',self::CLASS_NAME) . "');</script>";
+			
+		}else{
+		
+			$table_name = $wpdb->prefix . "users";
+	
+			$data = array('user_login'=>$admin_login);                
+			$where = array('ID'=>$user_ID);
+			$format = array('%s');
+			$wformat = array('%d');
+			
+			$update = $wpdb->update( $table_name, $data, $where, $format, $wformat);
+		
+		}
+	}
+	
+	
+	echo '<div id="message" class="updated">';
+	echo '<p><strong>'. __('Settings has been saved successfully!',self::CLASS_NAME) . '</strong></p>';
+	echo '</div>';			
+
+}
+
+?>
 <div class="wrap">
 <div class="icon32"><img src='<?php echo plugins_url('/images/icon-32.png', dirname(__FILE__))?>' /></div>
         
@@ -54,7 +188,7 @@
                   <p>
                 <label><?php _e('Change your admin username and Improve your site security',self::CLASS_NAME);?>:</label>
                 <?php _e('Your Current username is',self::CLASS_NAME);?>: <strong><?php echo $user_login?></strong>
-                <br /><input type="text" name="username" class="regular-text" /> <small style="color:red">( <?php _e('Attention: Memorize your new username, because you will need it to be able to login',self::CLASS_NAME);?> )</small>
+                <br /><strong><?php _e('New Username',self::CLASS_NAME);?></strong><input type="text" name="username" class="text" /> <strong><?php _e('Repeat New Username',self::CLASS_NAME);?></strong><input type="text" name="username2" class="text" /><br /><small style="color:red">( <?php _e('Attention: Memorize your new username, because you will need it to be able to login',self::CLASS_NAME);?> )</small>
                
                 </p> 
                 
@@ -82,11 +216,11 @@
         	<div class="inside">
             	<p>
                     <?php _e("Select the font color",self::CLASS_NAME);?>  <select name="font_color" >
-                        <option value="0x00000000" style="color:#000" <?php echo self::is_selected("0x00000000",$options["font_color"])?>><?php _e('Black',self::CLASS_NAME);?></option>
-                        <option value="0x00ffffff" style="color:#000" <?php echo self::is_selected("0x00ffffff",$options["font_color"])?>><?php _e('White',self::CLASS_NAME);?></option>
-                        <option value="0x000099cc" style="color:#00F" <?php echo self::is_selected("0x000099cc",$options["font_color"])?>><?php _e('Blue',self::CLASS_NAME);?></option>
-                        <option value="0x00f00000" style="color:#F00" <?php echo self::is_selected("0x00f00000",$options["font_color"])?>><?php _e('Red',self::CLASS_NAME);?></option>
-                        <option value="0x0000f000" style="color:#060" <?php echo self::is_selected("0x0000f000",$options["font_color"])?>><?php _e('Green',self::CLASS_NAME);?></option>
+                        <option value="0x00000000" style="background-color:#000;color:gray;" <?php echo self::is_selected("0x00000000",$options["font_color"])?>><?php _e('Black',self::CLASS_NAME);?></option>
+                        <option value="0x00ffffff" style="background-color:#fff;color:gray;" <?php echo self::is_selected("0x00ffffff",$options["font_color"])?>><?php _e('White',self::CLASS_NAME);?></option>
+                        <option value="0x000099cc" style="background-color:#00F;color:gray;" <?php echo self::is_selected("0x000099cc",$options["font_color"])?>><?php _e('Blue',self::CLASS_NAME);?></option>
+                        <option value="0x00f00000" style="background-color:#F00;color:gray;" <?php echo self::is_selected("0x00f00000",$options["font_color"])?>><?php _e('Red',self::CLASS_NAME);?></option>
+                        <option value="0x0000f000" style="background-color:#060;color:gray;" <?php echo self::is_selected("0x0000f000",$options["font_color"])?>><?php _e('Green',self::CLASS_NAME);?></option>
                     </select>
                 </p>
             
@@ -119,30 +253,23 @@
         <div class="metabox-holder">
 
 		<div class="postbox" >
+    
 
-        
-
-        	<h3 style="font-size:24px; text-transform:uppercase;color:#F00;">
-
-        	<?php _e('Take a Look!',self::CLASS_NAME);?>
-
-            </h3>
+             <h3 style="font-size:24px; text-transform:uppercase;color:#F00;"><?php _e('Are you an Affiliate?',self::CLASS_NAME)?></h3>
 
             
 
-             <h3><?php _e('Best Wordpress Themes',self::CLASS_NAME)?>: <a href="http://plugin-wp.net/aff_elegantthemes" target="_blank">Elegant Themes</a></h3>
+             <h3><?php _e('Meet the Most Powerful Affiliate Links MNG',self::CLASS_NAME)?>: <a href="<?php _e('http://plugin-wp.net/hotlinks',self::CLASS_NAME)?>" target="_blank">HotLinks</a></h3>
 
-             
 
         	<div class="inside">
 
                 <p>
 
-                <a href="http://plugin-wp.net/aff_elegantthemes" target="_blank"><img src="<?php echo $anderson_makiyama[self::PLUGIN_ID]->plugin_url?>images/elegantthemes.jpg" ></a>
+                <a href="http://plugin-wp.net/hotlinks" target="_blank"><img src="<?php echo $anderson_makiyama[self::PLUGIN_ID]->plugin_url?>images/hotplus.jpg" ></a>
 
 				</p>
-
-
+				
 
 			</div>
 
@@ -150,30 +277,31 @@
  		</div>
         </div>
         
-         <div class="metabox-holder">
+        <div class="metabox-holder">
 
-		<div class="postbox" >           
+		<div class="postbox" >
+    
 
-            <h3><?php _e('Best Autoresponder for Email Marketing',self::CLASS_NAME)?>: <a href="http://plugin-wp.net/aff_trafficwave" target="_blank">TrafficWave</a></h3>
+             <h3 style="font-size:24px; text-transform:uppercase;color:#F00;"><?php _e('Pay 1, Get 87!',self::CLASS_NAME)?></h3>
 
             
+
+             <h3>Mega WP Premium Themes PACK: <a href="http://plugin-wp.net/elegantthemes" target="_blank">Elegant Themes</a></h3>
+
 
         	<div class="inside">
 
                 <p>
 
-                <a href="http://plugin-wp.net/aff_trafficwave" target="_blank"><img src="<?php echo $anderson_makiyama[self::PLUGIN_ID]->plugin_url?>images/trafficwave.jpg"></a>
+                <a href="http://plugin-wp.net/elegantthemes" target="_blank"><img src="<?php echo $anderson_makiyama[self::PLUGIN_ID]->plugin_url?>images/elegantthemes.jpg" ></a>
 
 				</p>
+				
 
+			</div>
 
-
-			</div> 
-
-                        
-
-		</div>
-
+ 
+ 		</div>
         </div>
 
               
@@ -198,17 +326,17 @@
 
 </li>
 
-<li><?php _e("Author's email",self::CLASS_NAME);?>: <a href="mailto:andersonmaki@gmail.com" target="_blank">andersonmaki@gmail.com</a>
-
-</li>
-
-<li><?php _e('Visit the Plugin page',self::CLASS_NAME);?>: <a href="<?php echo self::PLUGIN_PAGE?>" target="_blank"><?php echo self::PLUGIN_PAGE?></a>
+<li><?php _e("Email",self::CLASS_NAME);?>: <a href="mailto:andersonmaki@gmail.com" target="_blank">andersonmaki@gmail.com</a>
 
 </li>
 
 <li>
 
-<?php _e("Visit the author's site",self::CLASS_NAME);?>: <a href="http://plugin-wp.net" target="_blank">www.Plugin-WP.net</a>
+<?php _e("Facebook",self::CLASS_NAME);?>: <a href="https://www.facebook.com/AndersonMaki" target="_blank">Facebook.com/AndersonMaki</a>
+
+</li>
+
+<li><?php _e('Visit the Plugin page',self::CLASS_NAME);?>: <a href="<?php echo self::PLUGIN_PAGE?>" target="_blank"><?php echo self::PLUGIN_PAGE?></a>
 
 </li>
 

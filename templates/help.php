@@ -52,22 +52,13 @@
 </li>
 
 
+<li>
 
-<li><?php _e('Visit the Plugin page',self::CLASS_NAME);?>: <a href="<?php echo self::PLUGIN_PAGE?>" target="_blank"><?php echo self::PLUGIN_PAGE?></a>
-
-
+<?php _e("Facebook",self::CLASS_NAME);?>: <a href="https://www.facebook.com/AndersonMaki" target="_blank">Facebook.com/AndersonMaki</a>
 
 </li>
 
-
-
-<li>
-
-
-
-<?php _e("Visit the author's site",self::CLASS_NAME);?>: <a href="http://plugin-wp.net" target="_blank">www.Plugin-WP.Net</a>
-
-
+<li><?php _e('Visit the Plugin page',self::CLASS_NAME);?>: <a href="<?php echo self::PLUGIN_PAGE?>" target="_blank"><?php echo self::PLUGIN_PAGE?></a>
 
 </li>
 

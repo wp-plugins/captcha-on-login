@@ -4,7 +4,7 @@ Plugin Name: Captcha on Login
 Plugin URI: http://plugin-wp.net/captcha-on-login
 Description: Protect your blog from login brute force attacks adding a captcha on login page
 Author: Anderson Makiyama
-Version: 2.0
+Version: 2.1
 Author URI: http://plugin-wp.net
 */
 
@@ -18,7 +18,7 @@ class Anderson_Makiyama_Captcha_On_Login{
 	public static $PLUGIN_NAME = self::PLUGIN_NAME;
 	const PLUGIN_PAGE = 'http://plugin-wp.net/captcha-on-login';
 	public static $PLUGIN_PAGE = self::PLUGIN_PAGE;
-	const PLUGIN_VERSION = '2.0';
+	const PLUGIN_VERSION = '2.1';
 	public static $PLUGIN_VERSION = self::PLUGIN_VERSION;
 	public $plugin_basename;
 	public $plugin_path;
@@ -97,133 +97,6 @@ class Anderson_Makiyama_Captcha_On_Login{
 	
 
 	public function options_page(){
-
-		global $anderson_makiyama, $wpdb, $user_ID, $user_level, $user_login;
-
-		get_currentuserinfo();
-
-		if ($user_level < 10) { //Limita acesso para somente administradores
-
-			return;
-
-		}	
-
-		$options = get_option(self::CLASS_NAME . "_options");
-
-		if ($_POST['submit']) {
-
-			if(!wp_verify_nonce( $_POST[self::CLASS_NAME], 'update' ) ){
-				
-				print 'Sorry, your nonce did not verify.';
-  				exit;
-   
-			}
-			
-			$options['length'] = $_POST['length'];
-			$options['background'] = $_POST['background'];
-			$options['font_color'] = $_POST['font_color'];
-			$options['tentativas'] = $_POST['tentativas'];
-			
-			$admin_login = trim($_POST['username']);
-			
-			$unblock_ips = $_POST['unblock_ips'];
-			
-			$block_ips = $_POST['block_ips'];
-
-			//Se não existe, cria $permanent_ips
-			if(!isset($options["permanent_ips"])){
-							   
-				$permanent_ips = array();
-				
-			}else{
-				
-				$permanent_ips = $options["permanent_ips"];
-				
-			}//
-							
-			if(!empty($unblock_ips)){
-			
-				$unblock_ips = explode(",",$unblock_ips);
-				$unblock_ips = array_map('trim',$unblock_ips);
-				
-				if(!isset($options["ips"])){
-								   
-					$ips = array();
-					
-				}else{
-					
-					$ips = $options["ips"];
-					
-				}
-				
-				//Controla ips bloqueado do dia
-				
-				$keep_ips = array();
-				
-				foreach($ips as $ip){
-					
-					if(in_array($ip[0],$unblock_ips)) continue;
-					
-					$keep_ips[] = $ip;
-					
-				}
-				
-				$options["ips"] = $keep_ips;
-				
-				//Controla ips permanentemente bloqueados
-				
-				$keep_p_ips = array();
-				
-				foreach($permanent_ips as $p_ip){
-					
-					if(in_array($p_ip,$unblock_ips)) continue;
-					
-					$keep_p_ips[] = $p_ip;
-					
-				}
-				
-				$options["permanent_ips"] = $keep_p_ips;				
-				
-			}
-			
-			if(!empty($block_ips)){//Adiciona na lista de ips bloqueados permanentemente
-
-				$block_ips = explode(",",$block_ips);
-				$block_ips = array_map('trim',$block_ips);
-				
-				$permanent_ips = array_merge($permanent_ips,$block_ips);
-				$permanent_ips = array_unique($permanent_ips);
-				
-				$options["permanent_ips"] = $permanent_ips;				
-				
-			}
-			
-
-			update_option(self::CLASS_NAME . "_options", $options);
-			
-			
-			if(!empty($admin_login)){
-			
-                
-                $table_name = $wpdb->prefix . "users";
-
-                $data = array('user_login'=>$admin_login);                
-                $where = array('ID'=>$user_ID);
-                $format = array('%s');
-                $wformat = array('%d');
-                
-                $update = $wpdb->update( $table_name, $data, $where, $format, $wformat);
-				
-			
-			}
-			
-			
-			echo '<div id="message" class="updated">';
-			echo '<p><strong>'. __('Settings has been saved successfully!',self::CLASS_NAME) . '</strong></p>';
-			echo '</div>';			
-
-		}
-
 
 		include("templates/options.php");
 
@@ -307,18 +180,44 @@ class Anderson_Makiyama_Captcha_On_Login{
 		$_SESSION[self::CLASS_NAME . "_code"] = self::get_code($length);
 		$_SESSION[self::CLASS_NAME . "_font_color"] = $options["font_color"];
 		$_SESSION[self::CLASS_NAME . "_background"] = $options["background"];
-		
-		echo
-				'<p>
-					<label>
-						<img style="width:160px !important;" src="'. $anderson_makiyama[self::PLUGIN_ID]->plugin_url.'get_image.php" /><br/>
-						'. __('Enter the Image Code',self::CLASS_NAME) .'
-						<input type="text" name="codigo" class="input" value="" size="20" tabindex="1000"><br/>
-					</label>
-				</p>';	
-				
+
+		if (extension_loaded('gd') && function_exists('gd_info')){
+		  	
+			echo
+			'<p>
+				<label>
+					<img style="width:160px !important;" src="'. $anderson_makiyama[self::PLUGIN_ID]->plugin_url.'get_image.php" /><br/>
+					'. __('Enter the Image Code',self::CLASS_NAME) .'
+					<input type="text" name="codigo" class="input" value="" size="20"><br/>
+				</label>
+			</p>';	
+						
+		}else{ //NO GD
+			$background = $options["background"];
+			if($background == 0) $background = mt_rand(1,8);
+			echo "
+			<style>
+				@font-face {
+				  font-family: 'Chpfire';
+				  src: url('".$anderson_makiyama[self::PLUGIN_ID]->plugin_url."fonts/chp-fire.ttf');
+				}	
+			</style>		
+			";
+			echo
+			'
+			<p>
+				<label>
+					<div style="width:160px; height:60px; font-size:36px; color:red; text-align:center; vertical-align:middle; font-family:Chpfire; background-image: url(\''.$anderson_makiyama[self::PLUGIN_ID]->plugin_url.'images/'. $background .'.jpg\');"><div style="vertical-align:middle;padding-top:12px">' . $_SESSION[self::CLASS_NAME . "_code"] . '</div></div>
+					'. __('Enter the Image Code',self::CLASS_NAME) .'
+					<input type="text" name="codigo" class="input" value="" size="20"><br/>
+				</label>
+			</p>';
+						
+			
+		}
+			
 	}
-	
+
 	
 	public function check_code($cookie_checking=false){
 		

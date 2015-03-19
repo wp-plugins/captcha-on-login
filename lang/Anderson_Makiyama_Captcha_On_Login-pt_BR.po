@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Captcha on Login Portugues\n"
-"POT-Creation-Date: 2014-05-17 00:01-0300\n"
-"PO-Revision-Date: 2014-05-17 00:06-0300\n"
+"POT-Creation-Date: 2015-03-18 22:47-0300\n"
+"PO-Revision-Date: 2015-03-18 22:50-0300\n"
 "Last-Translator: Anderson <andersonmaki@gmail.com>\n"
 "Language-Team: Anderson.Makiyama <andersonmaki@gmail.com>\n"
 "Language: pt_BR\n"
@@ -33,35 +33,35 @@ msgstr "Página de Suporte"
 msgid "Settings has been saved successfully!"
 msgstr "As configurações foram salvas com sucesso!"
 
-#: index.php:315
+#: index.php:317 index.php:338
 msgid "Enter the Image Code"
 msgstr "Digite o Código da Imagem"
 
-#: index.php:383 index.php:621
+#: index.php:409 index.php:647
 msgid "Failed: IP already blocked"
 msgstr "Falhou: Ip estava bloqueado"
 
-#: index.php:387 index.php:403
+#: index.php:413 index.php:429
 msgid "Your IP has been Locked! Try again tomorrow"
 msgstr "Teu IP foi bloqueado! Volte amanhã"
 
-#: index.php:399
+#: index.php:425
 msgid "Failed: exceeded max number of tries"
 msgstr "Falhou: Excedido o número de tentativas"
 
-#: index.php:411
+#: index.php:437
 msgid "Failed: image code did not match"
 msgstr "Falhou: código da imagem digitado errado"
 
-#: index.php:415
+#: index.php:441
 msgid "The Image Code is incorrect! Try again!"
 msgstr "O código da imagem está incorreto. Tente novamente!"
 
-#: index.php:434
+#: index.php:460
 msgid "Failed: Login or Password did not match"
 msgstr "Falhou: Login ou senha digitado errado"
 
-#: index.php:448
+#: index.php:474
 msgid "Success"
 msgstr "Sucesso"
 
@@ -73,21 +73,21 @@ msgstr "Ajuda"
 msgid "For more help and more details, visit the plugin page"
 msgstr "Para obter Ajuda e mais informações, visite a página do Plugin"
 
-#: templates/help.php:40 templates/options.php:197 templates/report.php:174
+#: templates/help.php:40 templates/options.php:191 templates/report.php:166
 msgid "Author"
 msgstr "Autor"
 
-#: templates/help.php:48 templates/options.php:201 templates/report.php:178
+#: templates/help.php:48 templates/report.php:170
 msgid "Author's email"
 msgstr "Email do autor"
 
-#: templates/help.php:56 templates/options.php:205 templates/report.php:182
+#: templates/help.php:57 templates/options.php:201 templates/report.php:176
+msgid "Facebook"
+msgstr "Facebook"
+
+#: templates/help.php:61 templates/options.php:205 templates/report.php:180
 msgid "Visit the Plugin page"
 msgstr "Visite a página do Plugin"
-
-#: templates/help.php:68 templates/options.php:211 templates/report.php:188
-msgid "Visit the author's site"
-msgstr "Visite o site do autor"
 
 #: templates/options.php:17
 msgid "Global Seettings"
@@ -177,18 +177,25 @@ msgstr "Aleatório"
 msgid "Changes each time"
 msgstr "Muda a cada vez"
 
-#: templates/options.php:127 templates/report.php:104
-msgid "Take a Look!"
-msgstr "Dê Uma Olhada!"
+#: templates/options.php:124 templates/report.php:101
+msgid "Are you an Affiliate?"
+msgstr "Você é um Afiliado?"
 
-#: templates/options.php:133 templates/report.php:110
-msgid "Best Wordpress Themes"
-msgstr "Melhores Temas Wordpress"
+#: templates/options.php:128 templates/report.php:105
+msgid "Meet the Most Powerful Affiliate Links MNG"
+msgstr "Conheça o Melhor Gerenciador de Links"
 
-#: templates/options.php:157 templates/report.php:134
-#, fuzzy
-msgid "Best Autoresponder for Email Marketing"
-msgstr "Melhor Autoresponder para Email Marketing"
+#: templates/options.php:128 templates/report.php:105
+msgid "http://plugin-wp.net/hotlinks"
+msgstr "http://hotplus.net.br/plugin-hotlinks-plus/"
+
+#: templates/options.php:151 templates/report.php:128
+msgid "Pay 1, Get 87!"
+msgstr "Pague 1, Leve 87!"
+
+#: templates/options.php:195
+msgid "Email"
+msgstr "Email"
 
 #: templates/report.php:4
 msgid "Reports"
@@ -242,14 +249,24 @@ msgstr ""
 "Note que os IPs bloqueados permanentemente<br>ficam bloqueados até que você "
 "os desbloqueie manualmente!"
 
+#~ msgid "Visit the author's site"
+#~ msgstr "Visite o site do autor"
+
+#~ msgid "Take a Look!"
+#~ msgstr "Dê Uma Olhada!"
+
+#~ msgid "Best Wordpress Themes"
+#~ msgstr "Melhores Temas Wordpress"
+
+#, fuzzy
+#~ msgid "Best Autoresponder for Email Marketing"
+#~ msgstr "Melhor Autoresponder para Email Marketing"
+
 #~ msgid "Set up the plugins Options at this page"
 #~ msgstr "Configure as opções do plugin nesta página"
 
 #~ msgid "Best Web Hosting for Wordpress"
 #~ msgstr "Melhor Hospedagem Web para Wordpress"
-
-#~ msgid "http://plugin-wp.net/aff_hostgator"
-#~ msgstr "http://plugin-wp.net/aff_hostgator_br"
 
 #~ msgid "See the reports on this page:"
 #~ msgstr "Configure as opções do plugin nesta página:"

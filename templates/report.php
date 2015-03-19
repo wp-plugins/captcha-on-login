@@ -17,15 +17,15 @@
             <label><?php _e('IP&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Date and Time&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Status',self::CLASS_NAME)?></label>
             
                 <p>
-                <select name="last_logins" size="10" multiple="multiple" >
+                <div style="width:600px;height:300px; overflow:scroll;">
                 	<?php
 					foreach($last_100_logins as $login):
 					?>
-                    <option><?php echo implode("&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;",$login)?></option>
+                    <?php echo implode("&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;",$login)?><br>
                     <?php
 					endforeach;
 					?>
-                </select>
+                </div>
                 </p>
 
 			</div>
@@ -46,17 +46,17 @@
                 <h4><?php _e('Temporary Blocked IPs', self::CLASS_NAME);?></h4>
             	
             	<p>
-                    <select name="blocked_ips" size="10" multiple="multiple" >
+                    <div style="width:350px;height:300px; overflow:scroll;">
                         <?php
                         foreach($ips as $ip):
                         ?>
-                        <option><?php echo $ip[0];?></option>
+                        <?php echo $ip[0];?></br>
                         <?php
                         endforeach;
 						
 						if(empty($ips)) echo "<option>" . __('Currently there is no Ips blocked. That is good :)', self::CLASS_NAME) . "</option>";
                         ?>
-                    </select>
+                    </div>
                 </p>
             	<label><?php _e('Note that temporary blocked IPs are unblocked<br> automatically on the next day!', self::CLASS_NAME);?></label>
 				</td>
@@ -65,17 +65,17 @@
                 <h4 style="color:red;"><?php _e('Permanent Blocked IPs', self::CLASS_NAME);?></h4>
             	
             	<p>
-                    <select name="permanent_blocked_ips" size="10" multiple="multiple" >
+                    <div style="width:350px;height:300px; overflow:scroll;">
                         <?php
                         foreach($permanent_ips as $p_ip):
                         ?>
-                        <option><?php echo $p_ip;?></option>
+                        <?php echo $p_ip;?></br>
                         <?php
                         endforeach;
 						
 						if(empty($permanent_ips)) echo "<option>" . __('Currently there is no Permanent Ips blocked. That is good :)', self::CLASS_NAME) . "</option>";
                         ?>
-                    </select>
+                    </div>
                 </p>
                 <label><?php _e('Note that permanent blocked IPs keep blocked<br>until you unblock it manually!', self::CLASS_NAME);?></label>                
                 </td>
@@ -96,30 +96,23 @@
         <div class="metabox-holder">
 
 		<div class="postbox" >
+    
 
-        
-
-        	<h3 style="font-size:24px; text-transform:uppercase;color:#F00;">
-
-        	<?php _e('Take a Look!',self::CLASS_NAME);?>
-
-            </h3>
+             <h3 style="font-size:24px; text-transform:uppercase;color:#F00;"><?php _e('Are you an Affiliate?',self::CLASS_NAME)?></h3>
 
             
 
-             <h3><?php _e('Best Wordpress Themes',self::CLASS_NAME)?>: <a href="http://plugin-wp.net/aff_elegantthemes" target="_blank">Elegant Themes</a></h3>
+             <h3><?php _e('Meet the Most Powerful Affiliate Links MNG',self::CLASS_NAME)?>: <a href="<?php _e('http://plugin-wp.net/hotlinks',self::CLASS_NAME)?>" target="_blank">HotLinks</a></h3>
 
-             
 
         	<div class="inside">
 
                 <p>
 
-                <a href="http://plugin-wp.net/aff_elegantthemes" target="_blank"><img src="<?php echo $anderson_makiyama[self::PLUGIN_ID]->plugin_url?>images/elegantthemes.jpg" ></a>
+                <a href="http://plugin-wp.net/hotlinks" target="_blank"><img src="<?php echo $anderson_makiyama[self::PLUGIN_ID]->plugin_url?>images/hotplus.jpg" ></a>
 
 				</p>
-
-
+				
 
 			</div>
 
@@ -127,33 +120,32 @@
  		</div>
         </div>
         
-         <div class="metabox-holder">
+        <div class="metabox-holder">
 
-		<div class="postbox" >           
+		<div class="postbox" >
+    
 
-            <h3><?php _e('Best Autoresponder for Email Marketing',self::CLASS_NAME)?>: <a href="http://plugin-wp.net/aff_trafficwave" target="_blank">TrafficWave</a></h3>
+             <h3 style="font-size:24px; text-transform:uppercase;color:#F00;"><?php _e('Pay 1, Get 87!',self::CLASS_NAME)?></h3>
 
             
+
+             <h3>Mega WP Premium Themes PACK: <a href="http://plugin-wp.net/elegantthemes" target="_blank">Elegant Themes</a></h3>
+
 
         	<div class="inside">
 
                 <p>
 
-                <a href="http://plugin-wp.net/aff_trafficwave" target="_blank"><img src="<?php echo $anderson_makiyama[self::PLUGIN_ID]->plugin_url?>images/trafficwave.jpg"></a>
+                <a href="http://plugin-wp.net/elegantthemes" target="_blank"><img src="<?php echo $anderson_makiyama[self::PLUGIN_ID]->plugin_url?>images/elegantthemes.jpg" ></a>
 
 				</p>
+				
 
+			</div>
 
-
-			</div> 
-
-                        
-
-		</div>
-
-        </div>
-
-              
+ 
+ 		</div>
+        </div>           
 
        </td>
        </tr>
@@ -179,13 +171,13 @@
 
 </li>
 
-<li><?php _e('Visit the Plugin page',self::CLASS_NAME);?>: <a href="<?php echo self::PLUGIN_PAGE?>" target="_blank"><?php echo self::PLUGIN_PAGE?></a>
+<li>
+
+<?php _e("Facebook",self::CLASS_NAME);?>: <a href="https://www.facebook.com/AndersonMaki" target="_blank">Facebook.com/AndersonMaki</a>
 
 </li>
 
-<li>
-
-<?php _e("Visit the author's site",self::CLASS_NAME);?>: <a href="http://plugin-wp.net" target="_blank">www.Plugin-WP.net</a>
+<li><?php _e('Visit the Plugin page',self::CLASS_NAME);?>: <a href="<?php echo self::PLUGIN_PAGE?>" target="_blank"><?php echo self::PLUGIN_PAGE?></a>
 
 </li>
 
