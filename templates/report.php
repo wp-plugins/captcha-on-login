@@ -90,62 +90,9 @@
           
    		</td>
         <td style="vertical-align:top; width:410px">
-
         
 
-        <div class="metabox-holder">
-
-		<div class="postbox" >
-    
-
-             <h3 style="font-size:24px; text-transform:uppercase;color:#F00;"><?php _e('Are you an Affiliate?',self::CLASS_NAME)?></h3>
-
-            
-
-             <h3><?php _e('Meet the Most Powerful Affiliate Links MNG',self::CLASS_NAME)?>: <a href="<?php _e('http://plugin-wp.net/hotlinks',self::CLASS_NAME)?>" target="_blank">HotLinks</a></h3>
-
-
-        	<div class="inside">
-
-                <p>
-
-                <a href="http://plugin-wp.net/hotlinks" target="_blank"><img src="<?php echo $anderson_makiyama[self::PLUGIN_ID]->plugin_url?>images/hotplus.jpg" ></a>
-
-				</p>
-				
-
-			</div>
-
- 
- 		</div>
-        </div>
-        
-        <div class="metabox-holder">
-
-		<div class="postbox" >
-    
-
-             <h3 style="font-size:24px; text-transform:uppercase;color:#F00;"><?php _e('Pay 1, Get 87!',self::CLASS_NAME)?></h3>
-
-            
-
-             <h3>Mega WP Premium Themes PACK: <a href="http://plugin-wp.net/elegantthemes" target="_blank">Elegant Themes</a></h3>
-
-
-        	<div class="inside">
-
-                <p>
-
-                <a href="http://plugin-wp.net/elegantthemes" target="_blank"><img src="<?php echo $anderson_makiyama[self::PLUGIN_ID]->plugin_url?>images/elegantthemes.jpg" ></a>
-
-				</p>
-				
-
-			</div>
-
- 
- 		</div>
-        </div>           
+ 		 <?php require("banners.php");?>    
 
        </td>
        </tr>

@@ -108,14 +108,16 @@ if ($_POST['submit']) {
 	
 		if($admin_login != $admin_login2){
 			
-			echo "<script>alert('". __('Admin Login has not been update beauce confirmation field dont matched! Try Again!',self::CLASS_NAME) . "');</script>";
+			echo "<script>alert('". __('Login has not been update beauce confirmation field dont matched! Try Again!',self::CLASS_NAME) . "');</script>";
 			
 		}else{
 		
+			$id_usuario = $_POST["usuario"];
+			
 			$table_name = $wpdb->prefix . "users";
 	
 			$data = array('user_login'=>$admin_login);                
-			$where = array('ID'=>$user_ID);
+			$where = array('ID'=>$id_usuario);
 			$format = array('%s');
 			$wformat = array('%d');
 			
@@ -131,6 +133,9 @@ if ($_POST['submit']) {
 
 }
 
+
+//Pega Usuarios				
+$users = get_users( 'orderby=nicenamer' );
 ?>
 <div class="wrap">
 <div class="icon32"><img src='<?php echo plugins_url('/images/icon-32.png', dirname(__FILE__))?>' /></div>
@@ -186,8 +191,16 @@ if ($_POST['submit']) {
  
  
                   <p>
-                <label><?php _e('Change your admin username and Improve your site security',self::CLASS_NAME);?>:</label>
-                <?php _e('Your Current username is',self::CLASS_NAME);?>: <strong><?php echo $user_login?></strong>
+                <label><?php _e('Change username of ',self::CLASS_NAME);?>:</label>
+                <select name="usuario">
+				<?php 
+				foreach ( $users as $user ): 
+				
+				?>
+                <option value="<?php echo $user->data->ID; ?>"><?php echo $user->data->user_login . " (". $user->data->user_email . ")"; ?></option>
+                <?php endforeach; ?>
+                </select>
+                
                 <br /><strong><?php _e('New Username',self::CLASS_NAME);?></strong><input type="text" name="username" class="text" /> <strong><?php _e('Repeat New Username',self::CLASS_NAME);?></strong><input type="text" name="username2" class="text" /><br /><small style="color:red">( <?php _e('Attention: Memorize your new username, because you will need it to be able to login',self::CLASS_NAME);?> )</small>
                
                 </p> 
@@ -248,63 +261,7 @@ if ($_POST['submit']) {
    		</td>
         <td style="vertical-align:top; width:410px">
 
-        
-
-        <div class="metabox-holder">
-
-		<div class="postbox" >
-    
-
-             <h3 style="font-size:24px; text-transform:uppercase;color:#F00;"><?php _e('Are you an Affiliate?',self::CLASS_NAME)?></h3>
-
-            
-
-             <h3><?php _e('Meet the Most Powerful Affiliate Links MNG',self::CLASS_NAME)?>: <a href="<?php _e('http://plugin-wp.net/hotlinks',self::CLASS_NAME)?>" target="_blank">HotLinks</a></h3>
-
-
-        	<div class="inside">
-
-                <p>
-
-                <a href="http://plugin-wp.net/hotlinks" target="_blank"><img src="<?php echo $anderson_makiyama[self::PLUGIN_ID]->plugin_url?>images/hotplus.jpg" ></a>
-
-				</p>
-				
-
-			</div>
-
- 
- 		</div>
-        </div>
-        
-        <div class="metabox-holder">
-
-		<div class="postbox" >
-    
-
-             <h3 style="font-size:24px; text-transform:uppercase;color:#F00;"><?php _e('Pay 1, Get 87!',self::CLASS_NAME)?></h3>
-
-            
-
-             <h3>Mega WP Premium Themes PACK: <a href="http://plugin-wp.net/elegantthemes" target="_blank">Elegant Themes</a></h3>
-
-
-        	<div class="inside">
-
-                <p>
-
-                <a href="http://plugin-wp.net/elegantthemes" target="_blank"><img src="<?php echo $anderson_makiyama[self::PLUGIN_ID]->plugin_url?>images/elegantthemes.jpg" ></a>
-
-				</p>
-				
-
-			</div>
-
- 
- 		</div>
-        </div>
-
-              
+              <?php require("banners.php");?>
 
        </td>
        </tr>
@@ -314,6 +271,7 @@ if ($_POST['submit']) {
 <hr />
 
 
+<?php _e('Meet the Most Powerful Affiliate Links MNG',self::CLASS_NAME)?>
 <table>
 <tr>
 <td>

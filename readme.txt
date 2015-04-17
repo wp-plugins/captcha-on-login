@@ -87,3 +87,6 @@ Yes, you can, just leave a comment at [Captcha on Login](http://plugin-wp.net/ca
 
 = 2.1 =
 * Now working even when GD is not installed on the server
+
+= 2.1.1 =
+* Now it is possible to change username of any user

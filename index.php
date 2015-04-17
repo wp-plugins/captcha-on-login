@@ -4,7 +4,7 @@ Plugin Name: Captcha on Login
 Plugin URI: http://plugin-wp.net/captcha-on-login
 Description: Protect your blog from login brute force attacks adding a captcha on login page
 Author: Anderson Makiyama
-Version: 2.1
+Version: 2.1.1
 Author URI: http://plugin-wp.net
 */
 
@@ -18,7 +18,7 @@ class Anderson_Makiyama_Captcha_On_Login{
 	public static $PLUGIN_NAME = self::PLUGIN_NAME;
 	const PLUGIN_PAGE = 'http://plugin-wp.net/captcha-on-login';
 	public static $PLUGIN_PAGE = self::PLUGIN_PAGE;
-	const PLUGIN_VERSION = '2.1';
+	const PLUGIN_VERSION = '2.1.1';
 	public static $PLUGIN_VERSION = self::PLUGIN_VERSION;
 	public $plugin_basename;
 	public $plugin_path;
