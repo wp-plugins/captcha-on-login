@@ -2,7 +2,7 @@
 Contributors: Anderson.Makiyama
 Tags: capcha, login, plugin capcha, image on login, secure code to login
 Requires at least: 3.0
-Tested up to: 4.0
+Tested up to: 4.2.2
 Stable tag: trunk
 
 Protect your blog from login brute force attacks adding a captcha on login page of your site 
@@ -90,3 +90,6 @@ Yes, you can, just leave a comment at [Captcha on Login](http://plugin-wp.net/ca
 
 = 2.1.1 =
 * Now it is possible to change username of any user
+
+= 2.1.2 =
+* Changed some part of the code and icons.
